@@ -1,3 +1,6 @@
+import 'package:ejericio_formacion/common/assets.dart';
+import 'package:ejericio_formacion/common/datasources/Prefs.dart';
+import 'package:ejericio_formacion/common/routes.dart';
 import 'package:flutter/material.dart';
 
 class MaquetacionPage extends StatelessWidget {
@@ -7,8 +10,9 @@ class MaquetacionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Obtención de un objeto size (height y width) que contiene las medidas en píxeles de la pantalla
     // MediaQuery.of(context).size.height
+    List<String> images = [Assets.image1,Assets.image2,Assets.image3,Assets.image4,];
     return Scaffold(
-      body: Column(
+      body: ListView(
         children: [
           Container(
             width: double.infinity,
@@ -39,9 +43,91 @@ class MaquetacionPage extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconText(icon: Icons.phone, text:'Teléfono'),
+              IconText(icon: Icons.location_on, text:'Ubicación'),
+              IconText(icon: Icons.share, text:'Compartir'),
+            ],
+          ),
+          Container(
+            height: 250,
+            child: ListView.builder(
+              itemCount: images.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) { 
+                return ImageCard(image: images[index],);
+               },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in felis aliquam, consequat lectus sed, interdum nunc. In pellentesque lectus eu congue ultrices. Integer dictum risus ac tortor malesuada, ac varius eros fermentum. Aliquam leo tortor, commodo et nunc sit amet, ultricies sagittis nisl. Fusce lectus ipsum, fringilla eu tincidunt bibendum, suscipit non turpis. Fusce fermentum sodales lorem ac ultrices. Nam tristique, ante vitae elementum condimentum, est mauris sagittis ligula, sit amet rhoncus enim tortor id nisl. Nulla nunc quam, dictum quis erat in, tristique dictum ligula. Vivamus finibus nulla sed sapien gravida blandit ac posuere eros. Morbi a auctor velit. Fusce tristique enim eget scelerisque euismod. Etiam iaculis orci sed molestie condimentum.'),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: GestureDetector(
+              onTap: (){
+                Prefs.setToken('');
+                Navigator.pushReplacementNamed(context, Routes.formPage);
+              },
+              child: Text('Cerrar sesión')
+            ),
           )
         ],
       ),
+    );
+  }
+}
+
+class ImageCard extends StatelessWidget {
+  const ImageCard({
+    Key key, @required this.image,
+  }) : super(key: key);
+  final String image;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Theme(
+        data: ThemeData(
+          cardTheme: CardTheme(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+            )
+          )
+        ),
+        child: Container(
+          height: 250,
+          width: 250,
+          child: Card(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20) ,
+              child: Image(image: AssetImage(image), fit: BoxFit.cover,)
+            )
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class IconText extends StatelessWidget {
+  const IconText({
+    Key key,@required this.text,@required this.icon,
+  }) : super(key: key);
+  final String text;
+  final IconData icon;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(icon, color:Colors.blue, size: 40,),
+        SizedBox(height: 5,),
+        Text(text, style: TextStyle(color: Colors.blue, fontSize: 18),)
+      ],
     );
   }
 }

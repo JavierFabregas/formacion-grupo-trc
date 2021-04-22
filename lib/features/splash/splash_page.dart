@@ -1,3 +1,4 @@
+import 'package:ejericio_formacion/common/datasources/Prefs.dart';
 import 'package:ejericio_formacion/common/routes.dart';
 import 'package:ejericio_formacion/features/form/form_page.dart';
 import 'package:flutter/material.dart';
@@ -10,19 +11,35 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-
+  String token = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(milliseconds: 2000), (){
-      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FormPage()));
-      Navigator.pushReplacementNamed(context, Routes.maquetacionPage);
+      getToken();
     });
+
+  }
+  
+  // getToken()async{
+  //  token = await Prefs.getToken();
+  // }
+  
+  getToken(){
+   Prefs.getToken().then((value) {
+     token = value;
+     if(token != ''){
+        Navigator.pushReplacementNamed(context, Routes.maquetacionPage);
+      }else{
+        Navigator.pushReplacementNamed(context, Routes.formPage);
+      }
+   });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.blue[100],
       body: Container(

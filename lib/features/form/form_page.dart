@@ -1,3 +1,5 @@
+import 'package:ejericio_formacion/common/datasources/Prefs.dart';
+import 'package:ejericio_formacion/common/routes.dart';
 import 'package:ejericio_formacion/common/utils/validators.dart';
 import 'package:ejericio_formacion/common/widgets/form_input.dart';
 import 'package:ejericio_formacion/features/form/form_bloc.dart';
@@ -61,6 +63,8 @@ class _FormPageState extends State<FormPage> {
                 onPressed: () {
                   if(_bloc.isFormValid()){
                     _bloc.postForm();
+                    Prefs.setToken('TOKEN DE EJEMPLO');
+                    Navigator.pushReplacementNamed(context, Routes.maquetacionPage);
                   }else{
                     _autovalidate = true;
                     setState(() {});
