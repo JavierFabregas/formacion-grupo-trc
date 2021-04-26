@@ -48,7 +48,6 @@ class _SplashPageState extends State<SplashPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // SizedBox(width: double.infinity,),
             Container(
               width: 250,
               height: 250,
@@ -58,7 +57,7 @@ class _SplashPageState extends State<SplashPage> {
                 ),
             ),
             SizedBox(height: 20,),
-            Text('Grupo TRC.', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),)
+            Text('Grupo TRC.', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, fontFamily: 'Calibri'),)
           ],
         ),
       ),

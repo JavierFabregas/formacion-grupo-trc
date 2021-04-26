@@ -70,7 +70,12 @@ class _FormPageState extends State<FormPage> {
                     setState(() {});
                   }
                 },
-                child: Text('Login')
+                child: Row(
+                  children: [
+                    Text('Login'),
+                    CircularProgressIndicator()
+                  ],
+                )
               )
             ],
           ),
