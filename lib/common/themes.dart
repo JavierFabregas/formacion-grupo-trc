@@ -7,7 +7,7 @@ class Themes{
   static ThemeData get lightTheme{
     return ThemeData(
       textTheme: _textTheme,
-      fontFamily: 'Dogica',
+      // fontFamily: 'Dogica',
       cardTheme: _cardTheme,
       primaryColor: _primaryColor,
     );
