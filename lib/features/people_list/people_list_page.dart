@@ -1,3 +1,4 @@
+import 'package:ejericio_formacion/common/datasources/api/models/Person.dart';
 import 'package:ejericio_formacion/common/routes.dart';
 import 'package:ejericio_formacion/features/people_list/people_list_bloc.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +18,21 @@ class _PeopleListPageState extends State<PeopleListPage> {
     super.initState();
     _bloc.addNoItemsToList();
     _bloc.addItemsToList();
+    _bloc.getPeople2();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () { 
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Mensaje informativo'),
+              duration: Duration(seconds: 5),
+            )
+          );
+         },
+      ),
       appBar: AppBar(
         leading: IconButton(
           icon:Icon(Icons.star),
@@ -33,11 +45,10 @@ class _PeopleListPageState extends State<PeopleListPage> {
       body: Padding(
         padding: const EdgeInsets.only(left:15.0,right: 15),
         child: StreamBuilder(
-          stream: _bloc.people,
+          stream: _bloc.peopleRepo,
           builder: (context, snapshot) {
             if(snapshot.hasData){
-              print('Snapshot -> ${snapshot.data.toString()}');
-              List<Person> people = snapshot.data;
+              List<PersonRepo> people = snapshot.data;
               if(people.isEmpty){
                 return Center(child: Text('No hay resultados'),);
               }else{
@@ -69,7 +80,7 @@ class PersonCard extends StatelessWidget {
   const PersonCard({
     Key key,@required this.person,
   }) : super(key: key);
-  final Person person;
+  final PersonRepo person;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -87,19 +98,34 @@ class PersonCard extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image.network(
-                    person.imagen,
+                    person.avatar,
                     fit: BoxFit.cover,
                   )
                 )
               ),
               SizedBox(width: 10,),
               Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(person.email, style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 18),),
+                  Container(
+                    width: 200,
+                    child: Text(
+                      person.email,
+                      style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 17),
+                      overflow: TextOverflow.clip,
+                      softWrap: false,
+                    ),
+                  ),
                   SizedBox(height: 10,),
-                  Text(person.name),
+                  Container(
+                    width: 200,
+                    child: Text(
+                      '${person.firstName} ${person.lastName} ${person.firstName} ${person.lastName} ${person.firstName} ${person.lastName} ${person.firstName} ${person.lastName} ${person.firstName} ${person.lastName}',
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      // maxLines: 300,
+                    ),
+                  ),
                 ],
               )
             ],

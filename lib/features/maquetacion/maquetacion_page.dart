@@ -72,6 +72,7 @@ class _MaquetacionPageState extends State<MaquetacionPage> {
                   ],
                 ),
                 onTap: () {
+                  Navigator.pop(context);
                   Navigator.pushNamed(context, Routes.peopleListPage);
                 },
               ),

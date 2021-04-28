@@ -1,7 +1,12 @@
+import 'package:ejericio_formacion/common/datasources/api/api_service.dart';
 import 'package:ejericio_formacion/features/people_list/people_list_page.dart';
+import 'package:ejericio_formacion/common/datasources/api/models/Person.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PeopleListBloc{
+
+  ApiService api = ApiService();
+
   List<Person> _people = [
     Person(name: 'Javi Fábregas 0', email: 'george.bluth@reqres.in',  imagen: 'https://reqres.in/img/faces/1-image.jpg'),
     Person(name: 'Javi Fábregas 1', email: 'george.bluth@reqres.in',  imagen: 'https://reqres.in/img/faces/1-image.jpg'),
@@ -31,8 +36,26 @@ class PeopleListBloc{
     });
   }
 
+  
+  PublishSubject<List<PersonRepo>> _publishSubjectRepo = PublishSubject<List<PersonRepo>>();
+  Stream<List<PersonRepo>> get peopleRepo => _publishSubjectRepo.stream;
+
+  getPeople()async{
+    Future<List<PersonRepo>> people = api.getPeople();
+    _publishSubjectRepo.sink.add(await people);
+  }
+
+  getPeople2()async{
+    Map<String,dynamic> response = await api.getPeople2();
+    if(response['status'] == 200){
+      List<PersonRepo> people = response['body'];
+      _publishSubjectRepo.sink.add(people);
+    }
+  }
+
   dispose(){
     _publishSubject.close();
+    _publishSubjectRepo.close();
   }
 
 }
