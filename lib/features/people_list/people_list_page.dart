@@ -1,5 +1,7 @@
 import 'package:ejericio_formacion/common/datasources/api/models/Person.dart';
 import 'package:ejericio_formacion/common/routes.dart';
+import 'package:ejericio_formacion/common/widgets/customDialog.dart';
+import 'package:ejericio_formacion/common/widgets/customDialog2.dart';
 import 'package:ejericio_formacion/features/people_list/people_list_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -23,15 +25,70 @@ class _PeopleListPageState extends State<PeopleListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () { 
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Mensaje informativo'),
-              duration: Duration(seconds: 5),
-            )
-          );
-         },
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            child: Icon(Icons.arrow_upward_sharp),
+            onPressed: () { 
+              Widget content = Container(
+                height: 300,
+                  child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        // GestureDetector(
+                        //   onTap: (){
+                        //     Navigator.pop(context);
+                        //   },
+                        //   child: Icon(Icons.close)
+                        // ),
+                        IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: (){
+                            Navigator.pop(context);
+                          }
+                        )
+                      ],
+                    ),
+                    Text('Título del dialog', style: Theme.of(context).textTheme.headline1,),
+                    SizedBox(height: 15,),
+                    Text('Cuerpo del dialog', style: Theme.of(context).textTheme.bodyText1,),
+                    SizedBox(height: 150,),
+                    ElevatedButton(
+                      child: Text('Enviar'),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      }
+                    )
+                  ],
+                ),
+              );
+              customDialog2(context, content);
+             },
+          ),
+          SizedBox(width: 15,),
+          FloatingActionButton(
+            child: Icon(Icons.arrow_downward_sharp),
+            onPressed: () { 
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  action: SnackBarAction(
+                    label: 'Volver',
+                    textColor: Colors.black,
+                    onPressed: () { 
+                      Navigator.pop(context);
+                     },
+                  ),
+                  backgroundColor: Theme.of(context).primaryColor,
+                  content: Text('Mensaje informativo'),
+                  duration: Duration(seconds: 5),
+                )
+              );
+             },
+          ),
+        ],
       ),
       appBar: AppBar(
         leading: IconButton(

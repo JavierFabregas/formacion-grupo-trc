@@ -77,6 +77,19 @@ class _MaquetacionPageState extends State<MaquetacionPage> {
                 },
               ),
               ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Ver nav bar', style: Theme.of(context).textTheme.bodyText2,),
+                    Icon(Icons.arrow_forward_ios_outlined)
+                  ],
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, Routes.bottomNavBarPage);
+                },
+              ),
+              ListTile(
                 title: Text('Cerrar sesión', style: Theme.of(context).textTheme.bodyText2,),
                 onTap: (){
                   Prefs.setToken('');

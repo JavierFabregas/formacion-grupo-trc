@@ -44,11 +44,13 @@ class PeopleListBloc{
     Future<List<PersonRepo>> people = api.getPeople();
     _publishSubjectRepo.sink.add(await people);
   }
-
+  // List<PersonRepo> listaConTodos = [];
   getPeople2()async{
     Map<String,dynamic> response = await api.getPeople2();
     if(response['status'] == 200){
       List<PersonRepo> people = response['body'];
+      // listaConTodos.addAll(people);
+      // _publishSubjectRepo.sink.add(listaConTodos);
       _publishSubjectRepo.sink.add(people);
     }
   }

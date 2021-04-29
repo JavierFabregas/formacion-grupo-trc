@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ejericio_formacion/common/datasources/Prefs.dart';
 import 'package:ejericio_formacion/common/datasources/api/models/PeoplePage.dart';
 import 'package:ejericio_formacion/common/datasources/api/models/Person.dart';
+import 'package:ejericio_formacion/environment.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService{
@@ -17,7 +18,8 @@ class ApiService{
   }
 
   Uri _getCompleteURL(String endpoint){
-    String url = 'https://reqres.in/api/$endpoint';
+    String baseUrl = Environment.baseUrl;
+    String url = '$baseUrl$endpoint';
     print(url);
     return Uri.parse(url);
   }
