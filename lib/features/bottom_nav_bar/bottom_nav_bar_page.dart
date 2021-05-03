@@ -70,12 +70,7 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
   setContent(int index){
     switch (index) {
       case 0:
-        content = Body1(
-          onPressed: (value){
-            title = value;
-            setState(() {});
-          },
-        );
+        content = Body1();
         break;
       case 1:
         content = Body2();

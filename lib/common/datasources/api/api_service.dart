@@ -19,7 +19,7 @@ class ApiService{
 
   Uri _getCompleteURL(String endpoint){
     String baseUrl = Environment.baseUrl;
-    String url = '$baseUrl$endpoint';
+    String url = 'https://reqres.in/api/$endpoint';
     print(url);
     return Uri.parse(url);
   }

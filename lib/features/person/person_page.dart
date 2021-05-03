@@ -1,4 +1,5 @@
-import 'package:ejericio_formacion/features/people_list/people_list_page.dart';
+import 'package:ejericio_formacion/common/datasources/api/models/Person.dart';
+import 'package:ejericio_formacion/common/datasources/database/db_service.dart';
 import 'package:flutter/material.dart';
 class PersonPage extends StatefulWidget {
   PersonPage({Key key}) : super(key: key);
@@ -9,13 +10,32 @@ class PersonPage extends StatefulWidget {
 
 class _PersonPageState extends State<PersonPage> {
   Map<String,dynamic> _args;
-  Person person;
+  PersonRepo person;
+  PersonRepo personDB;
+  bool isFavourite = false;
+  @override
+  void initState() { 
+    super.initState();
+    
+  } 
+
+  initializers()async{
+    if(_args != null){
+      person = _args['person'] ?? PersonRepo();
+      await DBService.db.getPersonById(person.id).then((value) {
+        if(value!=null){
+          isFavourite = true;
+          personDB = value;
+          print(personDB.id.toString());
+          setState(() {});
+        }
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     _args = ModalRoute.of(context).settings.arguments;
-    if(_args != null){
-      person = _args['person'] ?? Person();
-    }
+    initializers();
     return Scaffold(
       appBar: AppBar(
         title: Text('Detalle'),
@@ -30,7 +50,7 @@ class _PersonPageState extends State<PersonPage> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: Image.network(
-                person.imagen,
+                person.avatar,
                 fit: BoxFit.cover,
               )
             )
@@ -39,8 +59,22 @@ class _PersonPageState extends State<PersonPage> {
             children: [
               Text(person.email,style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 25)),
               SizedBox(height: 20,),
-              Text(person.name,style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20)),
+              Text('${person.firstName} ${person.lastName}',style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20)),
             ],
+          ),
+          ElevatedButton(
+            onPressed: (){
+              if(!isFavourite){
+                DBService.db.addnewPerson(person);
+                isFavourite = true;
+                setState((){});
+              }else{
+                // DBService.db.addnewPerson(person);
+                isFavourite = false;
+                setState((){});
+              }
+            },
+            child: Text((!isFavourite) ? 'Añadir a favoritos' : 'Quitar de favoritos')
           ),
           Container(width: double.infinity,),
         ],
