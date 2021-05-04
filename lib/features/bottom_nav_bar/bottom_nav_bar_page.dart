@@ -1,7 +1,7 @@
 import 'package:ejericio_formacion/features/bottom_nav_bar/page_1_content/page_1_content.dart';
 import 'package:ejericio_formacion/features/bottom_nav_bar/page_2_content/page_2_content.dart';
 import 'package:ejericio_formacion/features/bottom_nav_bar/page_3_content/page_3_content.dart';
-import 'package:ejericio_formacion/features/bottom_nav_bar/page_4_content/page_3_content.dart';
+import 'package:ejericio_formacion/features/bottom_nav_bar/page_4_content/page_4_content.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBarPage extends StatefulWidget {

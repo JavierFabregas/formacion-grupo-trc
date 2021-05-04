@@ -70,11 +70,11 @@ class DBService{
   Future<int>addnewPerson(PersonRepo newPerson)async{
     final db = await database;
     PersonRepo person = new PersonRepo(
-      id :newPerson.id,
+      id: newPerson.id,
       email: newPerson.email,
       firstName: newPerson.firstName,
-      lastName :newPerson.lastName,
-      avatar :newPerson.avatar,
+      lastName: newPerson.lastName,
+      avatar: newPerson.avatar,
     );
     final res = await db.insert('Favourites', person.toJson());
 
@@ -90,5 +90,43 @@ class DBService{
     return res.isNotEmpty
       ? PersonRepo.fromJson(res.first)
       : null;
+  }
+
+  Future<int> deletePerson(int id)async{
+    final db = await database;
+    final res = await db.delete('Favourites', where: 'id = ?', whereArgs: [id]);
+    return res;
+  }
+
+  Future<List<PersonRepo>> getPeople()async{
+    final db = await database;
+    final res = await db.query('Favourites');
+    List<PersonRepo> people = [];
+    if(res.isNotEmpty){
+      res.forEach((person) {
+        people.add(PersonRepo.fromJson(person));
+      });
+      return people;
+    }else{
+      return null;
+    }
+  }
+
+  Future<int> updatePerson(PersonRepo newPerson)async{
+    final db = await database;
+    final resSelect = await db.query('Favourites', where: 'id = ?', whereArgs: [newPerson.id]);
+    if(resSelect.isNotEmpty){
+      final res = await db.update('Favourites', {'first_name':'Javi'}, where: 'id = ?', whereArgs: [newPerson.id]);
+      return res;
+    }else{
+      return null;
+    }
+  }
+
+  Future<int> deletePeople()async{
+    final db = await database;
+    final res = await db.delete('Favourites');
+
+    return res;
   }
 }

@@ -26,7 +26,6 @@ class _PersonPageState extends State<PersonPage> {
         if(value!=null){
           isFavourite = true;
           personDB = value;
-          print(personDB.id.toString());
           setState(() {});
         }
       });
@@ -63,13 +62,14 @@ class _PersonPageState extends State<PersonPage> {
             ],
           ),
           ElevatedButton(
-            onPressed: (){
+            onPressed: ()async{
               if(!isFavourite){
-                DBService.db.addnewPerson(person);
+                await DBService.db.addnewPerson(person);
                 isFavourite = true;
                 setState((){});
               }else{
-                // DBService.db.addnewPerson(person);
+                print('Person id: ${person.id}');
+                await DBService.db.deletePerson(person.id);
                 isFavourite = false;
                 setState((){});
               }
